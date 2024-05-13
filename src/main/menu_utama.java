@@ -66,6 +66,7 @@ public class menu_utama extends javax.swing.JFrame {
         pnl_navbar = new javax.swing.JPanel();
         lb_tanggal = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         pnl_sidebar = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         pnl_menu = new javax.swing.JPanel();
@@ -93,16 +94,27 @@ public class menu_utama extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile.png"))); // NOI18N
         jLabel1.setText("Admin");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile.png"))); // NOI18N
+        jLabel2.setText("Admin");
+
         javax.swing.GroupLayout pnl_navbarLayout = new javax.swing.GroupLayout(pnl_navbar);
         pnl_navbar.setLayout(pnl_navbarLayout);
         pnl_navbarLayout.setHorizontalGroup(
             pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_navbarLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(190, 190, 190)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 579, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 395, Short.MAX_VALUE)
                 .addComponent(lb_tanggal)
                 .addContainerGap())
+            .addGroup(pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnl_navbarLayout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(714, Short.MAX_VALUE)))
         );
         pnl_navbarLayout.setVerticalGroup(
             pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,6 +126,11 @@ public class menu_utama extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(17, 17, 17))
+            .addGroup(pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnl_navbarLayout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(7, 7, 7)))
         );
 
         getContentPane().add(pnl_navbar, java.awt.BorderLayout.PAGE_START);
@@ -209,6 +226,7 @@ public class menu_utama extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lb_tanggal;
     private javax.swing.JPanel pnl_content;
