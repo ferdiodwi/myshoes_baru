@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package main;
 
@@ -8,6 +8,7 @@ import config.koneksi;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -16,20 +17,18 @@ import javax.swing.table.TableModel;
  *
  * @author ferdio
  */
-public class NewJDialog extends javax.swing.JDialog {
-    koneksi k = new koneksi();
+public class select_data_customer extends javax.swing.JFrame {
 
+    koneksi k = new koneksi();
     /**
-     * Creates new form NewJDialog
+     * Creates new form select_data_customer
      */
-    public NewJDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public select_data_customer() {
         initComponents();
         k.connect();
         datatable_DataCustomer();
     }
 
-    
     
     public void datatable_DataCustomer(){
         
@@ -57,7 +56,6 @@ public class NewJDialog extends javax.swing.JDialog {
         }
         
     }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,7 +68,7 @@ public class NewJDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelCus = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tabelCus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -94,7 +92,7 @@ public class NewJDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,12 +105,13 @@ public class NewJDialog extends javax.swing.JDialog {
 
     private void tabelCusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelCusMouseClicked
         // TODO add your handling code here:
-        
+
         Form_Transaksi tran = new Form_Transaksi();
-        
+        menu_utama men = new menu_utama();
+
         int i = tabelCus.getSelectedRow();
         TableModel tm = tabelCus.getModel();
-        
+
         String id = tm.getValueAt(i, 0).toString();
         String nama = tm.getValueAt(i, 1).toString();
         String notelp = tm.getValueAt(i, 2).toString();
@@ -120,8 +119,12 @@ public class NewJDialog extends javax.swing.JDialog {
         tran.txt_idCUS.setText(id);
         tran.txt_namaCUS.setText(nama);
         tran.txt_notelpCUS.setText(notelp);
+
+        men.setVisible(false);
+        this.setVisible(false);
+        men.pack();
+        men.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        tran.setVisible(false);
     }//GEN-LAST:event_tabelCusMouseClicked
 
     /**
@@ -141,27 +144,20 @@ public class NewJDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(select_data_customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(select_data_customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(select_data_customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(select_data_customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewJDialog dialog = new NewJDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new select_data_customer().setVisible(true);
             }
         });
     }

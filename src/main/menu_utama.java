@@ -228,6 +228,8 @@ public class menu_utama extends javax.swing.JFrame {
         ImageIcon iconKasir         = new ImageIcon(getClass().getResource("/image/icons8_checkout_30px.png"));
         ImageIcon iconPengeluaran   = new ImageIcon(getClass().getResource("/image/icons8_exchange_30px_1.png"));
         ImageIcon iconPemasukan     = new ImageIcon(getClass().getResource("/image/icons8_deposit_30px.png"));
+        ImageIcon iconOrder         = new ImageIcon(getClass().getResource("/image/icons8_order_history_30px.png"));
+        
         
         menu_item masBarang1    = new menu_item(null, true, iconDataCustomer, "Data Customer", new ActionListener() {
             @Override
@@ -248,6 +250,16 @@ public class menu_utama extends javax.swing.JFrame {
             }
         });
         
+        menu_item masBarang3    = new menu_item(null, true, iconOrder, "Order", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pnl_utama.removeAll();
+                pnl_utama.add(new Form_Order());
+                pnl_utama.repaint();
+                pnl_utama.revalidate();
+            }
+        });
+        
         menu_item masTransaksi1    = new menu_item(null, true, iconKasir, "Kasir", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -257,6 +269,7 @@ public class menu_utama extends javax.swing.JFrame {
                 pnl_utama.revalidate();
             }
         });
+        
         menu_item masTransaksi2    = new menu_item(null, true, iconPengeluaran, "Pengeluaran", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -277,7 +290,7 @@ public class menu_utama extends javax.swing.JFrame {
                 pnl_utama.revalidate();
             }
         });
-        menu_item menuMaster    = new menu_item(iconMaster, false, null,"Master", null, masBarang1,masBarang2);
+        menu_item menuMaster    = new menu_item(iconMaster, false, null,"Master", null, masBarang1,masBarang2,masBarang3);
         menu_item menuTransalsi = new menu_item(iconTransaksi, false, null,"Transaksi", null, masTransaksi1,masTransaksi2,masTransaksi3);
         menu_item menuLaporan   = new menu_item(iconLaporan, false, null,"Laporan", null);
         
