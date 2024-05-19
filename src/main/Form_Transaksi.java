@@ -40,6 +40,11 @@ public class Form_Transaksi extends javax.swing.JPanel {
     }
     
     
+    private void total_harga() {
+        lb_total.setText(TOOL_TIP_TEXT_KEY);
+    }
+    
+    
     private void auto_id(){
         try {
             String sql = "SELECT * FROM transaksi ORDER BY id_transaksi DESC";
@@ -124,7 +129,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
         tabel1 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lb_total = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
@@ -150,6 +155,11 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
         txt_idTran.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_idTran.setEnabled(false);
+        txt_idTran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_idTranActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -389,7 +399,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+                "ID Transaksi", "Tanggal", "ID Customer", "Nama Customer", "No Telp", "Sepatu", "Jenis Paket", "Harga"
             }
         ));
         jScrollPane1.setViewportView(tabel1);
@@ -398,10 +408,11 @@ public class Form_Transaksi extends javax.swing.JPanel {
         }
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel11.setText("Total Pesan");
+        jLabel11.setText("Total Harga");
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel12.setText("Total Pesan");
+        lb_total.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lb_total.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_total.setText("-");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -410,8 +421,8 @@ public class Form_Transaksi extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
-                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addComponent(lb_total, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -419,8 +430,8 @@ public class Form_Transaksi extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lb_total, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addContainerGap())
         );
 
@@ -553,7 +564,46 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
     private void rSMaterialButtonRectangle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle3ActionPerformed
         // TODO add your handling code here:
-        loadData();
+        String id_tran = txt_idTran.getText();
+        String tanggal = txt_tanggalTran.getText();
+        String id_cus = txt_idCUS.getText();
+        String nama = txt_namaCUS.getText();
+        String notelp = txt_notelpCUS.getText();
+        String sepatu = txt_sepatu.getText();
+        String jenis = (String) combo_jenispaket.getSelectedItem();
+        int harga = Integer.parseInt(txt_harga.getText());
+        
+        DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
+        
+        tbl.addRow(new Object[]{
+            id_tran,
+            tanggal,
+            id_cus,
+            nama,
+            notelp,
+            sepatu,
+            jenis,
+            harga
+        });
+        
+        int TotalHarga =0;
+        for(int i=0; i<tabel1.getRowCount();i++){
+            TotalHarga += Integer.parseInt(tabel1.getValueAt(i, 7).toString());
+            lb_total.setText(""+TotalHarga);
+            
+        }
+        txt_totalHarga_transaksi.setText(""+TotalHarga);
+        txt_idTran.setText("");
+        txt_tanggalTran.setText("");
+        txt_idCUS.setText("");
+        txt_namaCUS.setText("");
+        txt_notelpCUS.setText("");
+        txt_sepatu.setText("");
+        combo_jenispaket.setSelectedItem("");
+        txt_harga.setText("");
+        //loadData();
+        auto_id();
+        tanggal();
     }//GEN-LAST:event_rSMaterialButtonRectangle3ActionPerformed
 
     private void combo_jenispaketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_jenispaketActionPerformed
@@ -578,6 +628,10 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
     private void rSMaterialButtonRectangle4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle4ActionPerformed
         // TODO add your handling code here:
+        int totalharga = Integer.parseInt(txt_totalHarga_transaksi.getText());
+        int JumlahBayar = Integer.parseInt(txt_jumlah_bayar_transaksi.getText());
+        int kembalian = JumlahBayar - totalharga;
+        txt_jumlah_kembalian_transaksi.setText(""+kembalian);
     }//GEN-LAST:event_rSMaterialButtonRectangle4ActionPerformed
 
     private void txt_jumlah_bayar_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jumlah_bayar_transaksiActionPerformed
@@ -595,6 +649,10 @@ public class Form_Transaksi extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txt_idTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idTranActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_idTranActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> combo_jenispaket;
@@ -602,7 +660,6 @@ public class Form_Transaksi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -624,6 +681,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel lb_total;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle3;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle4;
     private javax.swing.JTable tabel1;
