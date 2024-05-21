@@ -6,14 +6,23 @@
 package main;
 
 import config.koneksi;
+import java.awt.HeadlessException;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRDesignViewer;
+import net.sf.jasperreports.view.JasperViewer;
+import table.*;
 
 /**
  *
@@ -30,6 +39,9 @@ public class Form_Transaksi extends javax.swing.JPanel {
         k.connect();
         auto_id();
         tanggal();
+        datatable_transaksi();
+        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
+        TableCustom.apply(jScrollPane2, TableCustom.TableType.DEFAULT);
     }
 
     
@@ -47,13 +59,13 @@ public class Form_Transaksi extends javax.swing.JPanel {
     
     private void auto_id(){
         try {
-            String sql = "SELECT * FROM transaksi ORDER BY id_transaksi DESC";
+            String sql = "SELECT * FROM detail_transaksi ORDER BY id_transaksi DESC";
             Connection con = (Connection) k.getCon();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             
             if (rs.next()){
-                String id_transaksi = rs.getString("id_transaksi").substring(2);
+                String id_transaksi = rs.getString("id_transaksi").substring(6);
                 String tr = "" + (Integer.parseInt(id_transaksi)+1);
                 String nol = "";
                 
@@ -88,6 +100,48 @@ public class Form_Transaksi extends javax.swing.JPanel {
             txt_tanggalTran.getText(),
             txt_harga.getText()
         });
+    }
+    
+    
+    public void datatable_transaksi(){
+        
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("ID transaksi");
+        tbl.addColumn("Tanggal");
+        tbl.addColumn("ID Customer");
+        tbl.addColumn("Nama Customer");
+        tbl.addColumn("NO Telp");
+        tbl.addColumn("Sepatu");
+        tbl.addColumn("Jenis Paket");
+        tbl.addColumn("Harga");
+        tbl.addColumn("Jumlah Bayar");
+        tbl.addColumn("Jumlah Kembalian");
+        table_struk.setModel(tbl);
+        try {
+            Statement statement=(Statement)k.getCon().createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM detail_transaksi");
+            while(res.next())
+            {
+                tbl.addRow(new Object[]{
+                res.getString("id_transaksi"),    
+                res.getString("tanggal"),    
+                res.getString("id_customer"),
+                res.getString("nama_customer"),
+                res.getString("notelp"),
+                res.getString("sepatu"),
+                res.getString("jenis_paket"),
+                res.getString("harga"),
+                res.getString("jumlah_bayar"),
+                res.getString("jumlah_kembalian"),
+            });
+            table_struk.setModel(tbl);
+                
+            }
+            
+        } catch (SQLException t) {
+            JOptionPane.showMessageDialog(null, "salah");
+        }
+        
     }
     
     /**
@@ -131,7 +185,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         lb_total = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        table_struk = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
         txt_totalHarga_transaksi = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -142,9 +196,9 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         lb_total1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btn_print = new javax.swing.JButton();
         save = new javax.swing.JButton();
-        save1 = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -435,7 +489,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        table_struk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -446,7 +500,12 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        table_struk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_strukMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(table_struk);
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -513,10 +572,10 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jButton3.setText("print");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_print.setText("print");
+        btn_print.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_printActionPerformed(evt);
             }
         });
 
@@ -527,10 +586,10 @@ public class Form_Transaksi extends javax.swing.JPanel {
             }
         });
 
-        save1.setText("delete");
-        save1.addActionListener(new java.awt.event.ActionListener() {
+        delete.setText("delete");
+        delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                save1ActionPerformed(evt);
+                deleteActionPerformed(evt);
             }
         });
 
@@ -551,11 +610,11 @@ public class Form_Transaksi extends javax.swing.JPanel {
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(jButton3)
+                        .addComponent(btn_print)
                         .addGap(18, 18, 18)
                         .addComponent(save)
                         .addGap(18, 18, 18)
-                        .addComponent(save1)
+                        .addComponent(delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -600,9 +659,9 @@ public class Form_Transaksi extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_totalHarga_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel21)
-                            .addComponent(jButton3)
+                            .addComponent(btn_print)
                             .addComponent(save)
-                            .addComponent(save1))
+                            .addComponent(delete))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -614,7 +673,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
                             .addComponent(txt_jumlah_kembalian_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -715,17 +774,17 @@ public class Form_Transaksi extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_idTranActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_printActionPerformed
         // TODO add your handling code here:
-        /*try {
-            File namafile = new File("src/laporan/struk_penjualan.jasper");
+        try {
+        File namafile = new File("src/laporan/struk_penjualan.jasper");
             JasperPrint jp = JasperFillManager.fillReport(namafile.getPath(), null, k.getCon());
-            JasperViewer.viewReport(jp,false);
+            JasperViewer.viewReport(jp,true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-        }*/
+        }
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_printActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
@@ -754,10 +813,10 @@ public class Form_Transaksi extends javax.swing.JPanel {
         }
         datatable_transaksi();*/
 
-        /*Connection con = (Connection) k.getCon();
+        Connection con = (Connection) k.getCon();
         Statement stat;
 
-        DefaultTableModel model = (DefaultTableModel) table_struk.getModel();
+        DefaultTableModel model = (DefaultTableModel) tabel1.getModel();
 
         int total_harga = Integer.parseInt(txt_totalHarga_transaksi.getText());
         int jumlah_bayar = Integer.parseInt(txt_jumlah_bayar_transaksi.getText());
@@ -768,16 +827,26 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
             for(int i = 0; i < model.getRowCount(); i++){
 
-                String id = model.getValueAt(i, 0).toString();
-                String nama = model.getValueAt(i, 1).toString();
-                String sepatu = model.getValueAt(i, 2).toString();
-                String jenis = model.getValueAt(i, 3).toString();
-                int harga = Integer.valueOf(model.getValueAt(i, 4).toString());
-                int total = Integer.valueOf(model.getValueAt(i, 5).toString());
+                String id_transaksi = model.getValueAt(i, 0).toString();
+                String tanggal = model.getValueAt(i, 1).toString();
+                String id_customer = model.getValueAt(i, 2).toString();
+                String nama_customer = model.getValueAt(i, 3).toString();
+                String notelp = model.getValueAt(i, 4).toString();
+                String sepatu = model.getValueAt(i, 5).toString();
+                String jenis_paket = model.getValueAt(i, 6).toString();
+                
+                int harga = Integer.valueOf(model.getValueAt(i, 7).toString());
 
-                String sqlQuery = "INSERT INTO detail_transaksi (id_transaksi, nama_customer, sepatu, jenis_paket, harga,total_harga, jumlah_bayar, jumlah_kembalian) VALUES ('"+id+"','"+nama+"','"+jenis+"','"+sepatu+"','"+harga+"','"+total+"','"+jumlah_bayar+"','"+jumlah_kembalian+"')";
+
+                String sqlQuery = "INSERT INTO detail_transaksi (id_transaksi, tanggal, id_customer, nama_customer, notelp, sepatu, jenis_paket, harga, total_harga, jumlah_bayar, jumlah_kembalian) VALUES ('"+id_transaksi+"','"+tanggal+"','"+id_customer+"','"+nama_customer+"','"+notelp+"','"+sepatu+"','"+jenis_paket+"','"+harga+"', '"+total_harga+"','"+jumlah_bayar+"','"+jumlah_kembalian+"')";
 
                 stat.addBatch(sqlQuery);
+                
+                txt_totalHarga_transaksi.setText("");
+                txt_jumlah_bayar_transaksi.setText("");
+                txt_jumlah_kembalian_transaksi.setText("");
+                lb_total.setText("");
+                lb_total1.setText("");
             }
 
             int[] rowInserted = stat.executeBatch();
@@ -787,39 +856,83 @@ public class Form_Transaksi extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "success");
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "kontol");
+            JOptionPane.showMessageDialog(null, e);
         }
         datatable_transaksi();
+        auto_id();
 
-        DefaultTableModel tableModel = (DefaultTableModel) table_struk.getModel();
-        tableModel.setRowCount(0);*/
+        DefaultTableModel tableModel = (DefaultTableModel) tabel1.getModel();
+        tableModel.setRowCount(0);
     }//GEN-LAST:event_saveActionPerformed
 
-    private void save1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save1ActionPerformed
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
-        /*String id_transaksi = txt_transaksi.getText();
+        String id_transaksi = txt_idTran.getText();
 
         try {
             Statement statement = (Statement) k.getCon().createStatement();
             statement.executeUpdate(" DELETE from detail_transaksi where id_transaksi = ('"+id_transaksi+"');");
             JOptionPane.showMessageDialog(null, "data berhasil dihapus");
-            txt_transaksi.setText("");
-            txt_nama_customer_transaksi.setText("");
+            txt_idCUS.setText("");
+            txt_namaCUS.setText("");
+            txt_notelpCUS.setText("");
+            txt_sepatu.setText("");
             combo_jenispaket.setSelectedItem("");
-            txt_sepatu_transaksi.setText("");
             txt_harga.setText("");
-            txt_transaksi.requestFocus();
+            txt_totalHarga_transaksi.setText("");
+            txt_jumlah_bayar_transaksi.setText("");
+            txt_jumlah_kembalian_transaksi.setText("");
+            lb_total.setText("");
+            lb_total1.setText("");
+            txt_idTran.requestFocus();
         } catch (HeadlessException | SQLException t) {
             JOptionPane.showMessageDialog(null, "data gagal dihapus");
         }
-        datatable_transaksi();*/
-    }//GEN-LAST:event_save1ActionPerformed
+        datatable_transaksi();
+        auto_id();
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void table_strukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_strukMouseClicked
+        // TODO add your handling code here:
+        int baris = table_struk.rowAtPoint(evt.getPoint());
+        
+        String id = table_struk.getValueAt(baris, 0).toString();
+        txt_idTran.setText(id);
+        
+        String tanggal = table_struk.getValueAt(baris, 1).toString();
+        txt_tanggalTran.setText(tanggal);
+        
+        String id_cus = table_struk.getValueAt(baris, 2).toString();
+        txt_idCUS.setText(id_cus);
+        
+        String nama = table_struk.getValueAt(baris, 3).toString();
+        txt_namaCUS.setText(nama);
+        
+        String notelp = table_struk.getValueAt(baris, 4).toString();
+        txt_notelpCUS.setText(notelp);
+        
+        String sepatu = table_struk.getValueAt(baris, 5).toString();
+        txt_sepatu.setText(sepatu);
+        
+        String jenis = table_struk.getValueAt(baris, 6).toString();
+        combo_jenispaket.setSelectedItem(jenis);
+        
+        String harga = table_struk.getValueAt(baris, 7).toString();
+        txt_harga.setText(harga);
+        
+        String jumlah_bayar = table_struk.getValueAt(baris, 8).toString();
+        txt_jumlah_bayar_transaksi.setText(jumlah_bayar);
+        
+        String kembalian = table_struk.getValueAt(baris, 9).toString();
+        txt_jumlah_kembalian_transaksi.setText(kembalian);
+    }//GEN-LAST:event_table_strukMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_print;
     private javax.swing.JComboBox<String> combo_jenispaket;
+    private javax.swing.JButton delete;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -845,14 +958,13 @@ public class Form_Transaksi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lb_total;
     private javax.swing.JLabel lb_total1;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle3;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle4;
     private javax.swing.JButton save;
-    private javax.swing.JButton save1;
     private javax.swing.JTable tabel1;
+    private javax.swing.JTable table_struk;
     private javax.swing.JTextField txt_harga;
     public javax.swing.JTextField txt_idCUS;
     private javax.swing.JTextField txt_idTran;

@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import table.*;
 
 /**
  *
@@ -47,6 +48,7 @@ public class Form_Data_Customer extends javax.swing.JPanel {
         k.connect();
         datatable_DataCustomer();
         auto_id();
+        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
     }
 
     
@@ -94,7 +96,8 @@ public class Form_Data_Customer extends javax.swing.JPanel {
         table_dataCustomer.setModel(tbl);
         
         try {
-            String sql = " SELECT * FROM customer WHERE id_customer like '%" + txt_cari.getText() + "%'";
+            String sql = "SELECT * FROM customer WHERE id_customer like '%" + txt_cari.getText() + "%'" +
+                    "or nama_customer like '%" + txt_cari.getText() + "%'";
              Connection con = (Connection) k.getCon();
              Statement stat = con.createStatement();
              ResultSet res = stat.executeQuery(sql);
@@ -290,6 +293,16 @@ public class Form_Data_Customer extends javax.swing.JPanel {
 
         txt_cari.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_cari.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_cariActionPerformed(evt);
+            }
+        });
+        txt_cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_cariKeyTyped(evt);
+            }
+        });
 
         rSMaterialButtonRectangle3.setBackground(new java.awt.Color(102, 102, 102));
         rSMaterialButtonRectangle3.setText("cari");
@@ -577,6 +590,16 @@ public class Form_Data_Customer extends javax.swing.JPanel {
         // TODO add your handling code here:
         cari_customer();
     }//GEN-LAST:event_rSMaterialButtonRectangle3ActionPerformed
+
+    private void txt_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cariActionPerformed
+        // TODO add your handling code here:
+        cari_customer();
+    }//GEN-LAST:event_txt_cariActionPerformed
+
+    private void txt_cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cariKeyTyped
+        // TODO add your handling code here:
+         cari_customer();
+    }//GEN-LAST:event_txt_cariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

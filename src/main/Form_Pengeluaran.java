@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import table.*;
 
 /**
  *
@@ -40,6 +41,7 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
         datatable_pengeluaran();
         tanggal();
         auto_id();
+        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
     }
     
     

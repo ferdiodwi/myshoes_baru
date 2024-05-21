@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import table.*;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Form_Karyawan extends javax.swing.JPanel {
         k.connect();
         datatable_Karyawan();
         auto_id();
+        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
     }
 
     
@@ -107,7 +109,8 @@ public class Form_Karyawan extends javax.swing.JPanel {
         table_karyawan.setModel(tbl);
         
         try {
-            String sql = " SELECT * FROM karyawan WHERE id_karyawan like '%" + txt_cari.getText() + "%'";
+            String sql = "SELECT * FROM karyawan WHERE id_karyawan like '%" + txt_cari.getText() + "%'" +
+                    "or nama_karyawan like '%" + txt_cari.getText() + "%'";
              Connection con = (Connection) k.getCon();
              Statement stat = con.createStatement();
              ResultSet res = stat.executeQuery(sql);
@@ -218,6 +221,16 @@ public class Form_Karyawan extends javax.swing.JPanel {
 
         txt_cari.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_cari.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_cariActionPerformed(evt);
+            }
+        });
+        txt_cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_cariKeyTyped(evt);
+            }
+        });
 
         rSMaterialButtonRectangle3.setBackground(new java.awt.Color(102, 102, 102));
         rSMaterialButtonRectangle3.setText("cari");
@@ -256,13 +269,14 @@ public class Form_Karyawan extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(38, 38, 38)
-                .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txt_cari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE))
         );
@@ -536,6 +550,16 @@ public class Form_Karyawan extends javax.swing.JPanel {
         // TODO add your handling code here:
         cari_karyawan();
     }//GEN-LAST:event_rSMaterialButtonRectangle3ActionPerformed
+
+    private void txt_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cariActionPerformed
+        // TODO add your handling code here:
+        cari_karyawan();
+    }//GEN-LAST:event_txt_cariActionPerformed
+
+    private void txt_cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cariKeyTyped
+        // TODO add your handling code here:
+        cari_karyawan();
+    }//GEN-LAST:event_txt_cariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
