@@ -27,6 +27,14 @@ public class register extends javax.swing.JFrame {
         initComponents();
         k.connect();
     }
+    private boolean isValidEmail (String email) {
+        return email.endsWith("@gmail.com") ||
+        email.endsWith("@yahoo.com") ||
+        email.endsWith("@outlook.com") ||
+        email.endsWith("@aol.com") ||
+        email.endsWith("@icloud.com") ||
+        email.endsWith("@polije.ac.id");
+    }
 
 
     /**
@@ -164,10 +172,20 @@ public class register extends javax.swing.JFrame {
         txt_username.setBackground(new java.awt.Color(25, 118, 211));
         txt_username.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_username.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_usernameActionPerformed(evt);
+            }
+        });
 
         pas_password.setBackground(new java.awt.Color(25, 118, 211));
         pas_password.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pas_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        pas_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pas_passwordActionPerformed(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(199, 226, 255));
         jLabel2.setText("Already have an account?");
@@ -184,10 +202,20 @@ public class register extends javax.swing.JFrame {
         txt_id_level.setBackground(new java.awt.Color(25, 118, 211));
         txt_id_level.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_id_level.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_id_level.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_id_levelActionPerformed(evt);
+            }
+        });
 
         txt_email.setBackground(new java.awt.Color(25, 118, 211));
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_emailActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(199, 226, 255));
@@ -203,7 +231,7 @@ public class register extends javax.swing.JFrame {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_email_20px.png"))); // NOI18N
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_cancel_30px_1.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_close_window_30px_1.png"))); // NOI18N
         jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -363,8 +391,84 @@ public class register extends javax.swing.JFrame {
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
         // TODO add your handling code here:
-        dispose();
+        System.exit(0);
     }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void txt_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_emailActionPerformed
+        // TODO add your handling code here:
+        String id_level = txt_id_level.getText();
+        String email = txt_email.getText();
+        String username = txt_username.getText();
+        String password = pas_password.getText();
+
+
+        try {
+            Statement statement = (Statement) k.getCon().createStatement();
+            statement.executeUpdate("insert into user (id_level, email, username, password) VALUES ('"+id_level+"','"+email+"','"+username+"','"+password+"');");
+            txt_id_level.setText("");
+            statement.close();
+            JOptionPane.showMessageDialog(null, "data berhasil dimpan");
+        } catch (SQLException t) {
+            JOptionPane.showMessageDialog(null, "data gagal disimpan");
+        }
+    }//GEN-LAST:event_txt_emailActionPerformed
+
+    private void pas_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pas_passwordActionPerformed
+        // TODO add your handling code here:
+        String id_level = txt_id_level.getText();
+        String email = txt_email.getText();
+        String username = txt_username.getText();
+        String password = pas_password.getText();
+
+
+        try {
+            Statement statement = (Statement) k.getCon().createStatement();
+            statement.executeUpdate("insert into user (id_level, email, username, password) VALUES ('"+id_level+"','"+email+"','"+username+"','"+password+"');");
+            txt_id_level.setText("");
+            statement.close();
+            JOptionPane.showMessageDialog(null, "data berhasil dimpan");
+        } catch (SQLException t) {
+            JOptionPane.showMessageDialog(null, "data gagal disimpan");
+        }
+    }//GEN-LAST:event_pas_passwordActionPerformed
+
+    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
+        // TODO add your handling code here:
+        String id_level = txt_id_level.getText();
+        String email = txt_email.getText();
+        String username = txt_username.getText();
+        String password = pas_password.getText();
+
+
+        try {
+            Statement statement = (Statement) k.getCon().createStatement();
+            statement.executeUpdate("insert into user (id_level, email, username, password) VALUES ('"+id_level+"','"+email+"','"+username+"','"+password+"');");
+            txt_id_level.setText("");
+            statement.close();
+            JOptionPane.showMessageDialog(null, "data berhasil dimpan");
+        } catch (SQLException t) {
+            JOptionPane.showMessageDialog(null, "data gagal disimpan");
+        }
+    }//GEN-LAST:event_txt_usernameActionPerformed
+
+    private void txt_id_levelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id_levelActionPerformed
+        // TODO add your handling code here:
+        String id_level = txt_id_level.getText();
+        String email = txt_email.getText();
+        String username = txt_username.getText();
+        String password = pas_password.getText();
+
+
+        try {
+            Statement statement = (Statement) k.getCon().createStatement();
+            statement.executeUpdate("insert into user (id_level, email, username, password) VALUES ('"+id_level+"','"+email+"','"+username+"','"+password+"');");
+            txt_id_level.setText("");
+            statement.close();
+            JOptionPane.showMessageDialog(null, "data berhasil dimpan");
+        } catch (SQLException t) {
+            JOptionPane.showMessageDialog(null, "data gagal disimpan");
+        }
+    }//GEN-LAST:event_txt_id_levelActionPerformed
 
     /**
      * @param args the command line arguments

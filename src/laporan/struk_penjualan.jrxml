@@ -192,6 +192,10 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sepatu}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="25" width="56" height="12" uuid="23f2f51c-a174-455a-b9da-40c92bd42805"/>
+				<text><![CDATA[Jenis Paket]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
@@ -241,14 +245,7 @@
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="61" splitType="Stretch">
-			<componentElement>
-				<reportElement x="1" y="7" width="190" height="37" uuid="481cab94-779c-49a1-99f0-848bfbab7cc6"/>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="USPS" drawText="false" checksumRequired="false">
-					<jr:codeExpression><![CDATA["1234"]]></jr:codeExpression>
-				</jr:barbecue>
-			</componentElement>
-		</band>
+		<band height="61" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="33" splitType="Stretch"/>

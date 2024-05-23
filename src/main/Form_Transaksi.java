@@ -5,6 +5,7 @@
  */
 package main;
 
+import com.barcodelib.barcode.Linear;
 import config.koneksi;
 import java.awt.HeadlessException;
 import java.io.File;
@@ -15,6 +16,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRExpression;
@@ -40,10 +42,21 @@ public class Form_Transaksi extends javax.swing.JPanel {
         auto_id();
         tanggal();
         datatable_transaksi();
+        datatable_DataCustomer();
         TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
         TableCustom.apply(jScrollPane2, TableCustom.TableType.DEFAULT);
+        TableCustom.apply(jScrollPane3, TableCustom.TableType.DEFAULT);
+    }    
+    private boolean isValidEmail (String email) {
+        return email.endsWith("@gmail.com") ||
+        email.endsWith("@yahoo.com") ||
+        email.endsWith("@outlook.com") ||
+        email.endsWith("@aol.com") ||
+        email.endsWith("@icloud.com") ||
+        email.endsWith("@polije.ac.id");
     }
-
+    
+    
     
     public void tanggal(){
         DateFormat tgl = new SimpleDateFormat("dd/MM/yyyy");
@@ -59,7 +72,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
     
     private void auto_id(){
         try {
-            String sql = "SELECT * FROM detail_transaksi ORDER BY id_transaksi DESC";
+            String sql = "SELECT * FROM laporan ORDER BY id_transaksi DESC";
             Connection con = (Connection) k.getCon();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -88,6 +101,35 @@ public class Form_Transaksi extends javax.swing.JPanel {
     }
     
     
+    void cari_customer(){
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("ID Customer");
+        tbl.addColumn("Nama");
+        tbl.addColumn("No Telp");
+        tabel_dataCus.setModel(tbl);
+        
+        try {
+            String sql = "SELECT * FROM customer WHERE id_customer like '%" + txt_cari.getText() + "%'" +
+                    "or nama_customer like '%" + txt_cari.getText() + "%'";
+             Connection con = (Connection) k.getCon();
+             Statement stat = con.createStatement();
+             ResultSet res = stat.executeQuery(sql);
+             
+             while(res.next())
+            {
+                tbl.addRow(new Object[]{
+                res.getString("id_customer"),
+                res.getString("nama_customer"),
+                res.getString("notelp")
+            });
+            tabel_dataCus.setModel(tbl);
+                
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    
     public void loadData() {
         DefaultTableModel model = (DefaultTableModel) tabel1.getModel();
         model.addRow(new Object[]{
@@ -103,6 +145,36 @@ public class Form_Transaksi extends javax.swing.JPanel {
     }
     
     
+    
+    
+    public void datatable_DataCustomer(){
+        
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("ID Customer");
+        tbl.addColumn("Nama Customer");
+        tbl.addColumn("No Telp");
+        tabel_dataCus.setModel(tbl);
+        try {
+            Statement statement=(Statement)k.getCon().createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM customer");
+            while(res.next())
+            {
+                tbl.addRow(new Object[]{
+                res.getString("id_customer"),
+                res.getString("nama_customer"),
+                res.getString("notelp")
+            });
+            tabel_dataCus.setModel(tbl);
+                
+            }
+            
+        } catch (SQLException t) {
+            JOptionPane.showMessageDialog(null, "salah");
+        }
+        
+    }
+    
+    
     public void datatable_transaksi(){
         
         DefaultTableModel tbl = new DefaultTableModel();
@@ -113,9 +185,9 @@ public class Form_Transaksi extends javax.swing.JPanel {
         tbl.addColumn("NO Telp");
         tbl.addColumn("Sepatu");
         tbl.addColumn("Jenis Paket");
+        tbl.addColumn("Tanggal Ambil");
         tbl.addColumn("Harga");
-        tbl.addColumn("Jumlah Bayar");
-        tbl.addColumn("Jumlah Kembalian");
+        tbl.addColumn("Total Harga");
         table_struk.setModel(tbl);
         try {
             Statement statement=(Statement)k.getCon().createStatement();
@@ -130,7 +202,9 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 res.getString("notelp"),
                 res.getString("sepatu"),
                 res.getString("jenis_paket"),
+                res.getString("tanggal_ambil"),
                 res.getString("harga"),
+                res.getString("total_harga"),
                 res.getString("jumlah_bayar"),
                 res.getString("jumlah_kembalian"),
             });
@@ -164,7 +238,6 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txt_idCUS = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         txt_namaCUS = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -175,10 +248,12 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txt_sepatu = new javax.swing.JTextField();
-        txt_harga = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         rSMaterialButtonRectangle3 = new rojerusan.RSMaterialButtonRectangle();
         combo_jenispaket = new javax.swing.JComboBox<>();
+        txt_harga = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jDateChooser = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel1 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
@@ -196,9 +271,13 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         lb_total1 = new javax.swing.JLabel();
-        btn_print = new javax.swing.JButton();
-        save = new javax.swing.JButton();
-        delete = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabel_dataCus = new javax.swing.JTable();
+        rSMaterialButtonRectangle5 = new rojerusan.RSMaterialButtonRectangle();
+        btn_pint = new rojerusan.RSMaterialButtonRectangle();
+        rSMaterialButtonRectangle7 = new rojerusan.RSMaterialButtonRectangle();
+        txt_cari = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -287,17 +366,11 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
         txt_idCUS.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_idCUS.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        txt_idCUS.setEnabled(false);
 
         txt_namaCUS.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_namaCUS.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txt_namaCUS.setEnabled(false);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Nama Customer");
@@ -308,6 +381,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
         txt_notelpCUS.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_notelpCUS.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txt_notelpCUS.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -324,12 +398,12 @@ public class Form_Transaksi extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_namaCUS)
                             .addComponent(txt_notelpCUS)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txt_idCUS, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txt_idCUS))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -339,9 +413,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_idCUS, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
+                .addComponent(txt_idCUS, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -386,11 +458,8 @@ public class Form_Transaksi extends javax.swing.JPanel {
         txt_sepatu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_sepatu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        txt_harga.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txt_harga.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel10.setText("Harga");
+        jLabel10.setText("Tanggal Ambil");
 
         rSMaterialButtonRectangle3.setText("Tambah");
         rSMaterialButtonRectangle3.addActionListener(new java.awt.event.ActionListener() {
@@ -407,11 +476,20 @@ public class Form_Transaksi extends javax.swing.JPanel {
             }
         });
 
+        txt_harga.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_harga.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel14.setText("Harga");
+
+        jDateChooser.setDateFormatString("dd/MM/yyyy");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,10 +500,11 @@ public class Form_Transaksi extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel10))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel14))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,10 +519,14 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(combo_jenispaket, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
+                .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_harga, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -457,9 +540,6 @@ public class Form_Transaksi extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tabel1);
-        if (tabel1.getColumnModel().getColumnCount() > 0) {
-            tabel1.getColumnModel().getColumn(0).setResizable(false);
-        }
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel11.setText("Total Harga");
@@ -475,7 +555,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(lb_total, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -511,6 +591,8 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel21.setText("Total Harga");
 
+        txt_totalHarga_transaksi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_totalHarga_transaksi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_totalHarga_transaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_totalHarga_transaksiActionPerformed(evt);
@@ -521,6 +603,8 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel19.setText("Tunai");
 
+        txt_jumlah_bayar_transaksi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_jumlah_bayar_transaksi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_jumlah_bayar_transaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_jumlah_bayar_transaksiActionPerformed(evt);
@@ -531,13 +615,15 @@ public class Form_Transaksi extends javax.swing.JPanel {
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel22.setText("jumlah kembalian");
 
+        txt_jumlah_kembalian_transaksi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_jumlah_kembalian_transaksi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_jumlah_kembalian_transaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_jumlah_kembalian_transaksiActionPerformed(evt);
             }
         });
 
-        rSMaterialButtonRectangle4.setText("bayar");
+        rSMaterialButtonRectangle4.setText("simpan");
         rSMaterialButtonRectangle4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rSMaterialButtonRectangle4ActionPerformed(evt);
@@ -558,7 +644,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addComponent(lb_total1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -572,26 +658,61 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        btn_print.setText("print");
-        btn_print.addActionListener(new java.awt.event.ActionListener() {
+        tabel_dataCus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3"
+            }
+        ));
+        tabel_dataCus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_dataCusMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tabel_dataCus);
+
+        rSMaterialButtonRectangle5.setBackground(new java.awt.Color(255, 51, 51));
+        rSMaterialButtonRectangle5.setText("hapus");
+        rSMaterialButtonRectangle5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_printActionPerformed(evt);
+                rSMaterialButtonRectangle5ActionPerformed(evt);
             }
         });
 
-        save.setText("save");
-        save.addActionListener(new java.awt.event.ActionListener() {
+        btn_pint.setBackground(new java.awt.Color(102, 102, 102));
+        btn_pint.setText("print");
+        btn_pint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveActionPerformed(evt);
+                btn_pintActionPerformed(evt);
             }
         });
 
-        delete.setText("delete");
-        delete.addActionListener(new java.awt.event.ActionListener() {
+        rSMaterialButtonRectangle7.setText("bayar");
+        rSMaterialButtonRectangle7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteActionPerformed(evt);
+                rSMaterialButtonRectangle7ActionPerformed(evt);
             }
         });
+
+        txt_cari.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_cari.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_cariActionPerformed(evt);
+            }
+        });
+        txt_cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_cariKeyTyped(evt);
+            }
+        });
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_search_30px.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -599,91 +720,113 @@ public class Form_Transaksi extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(btn_print)
-                        .addGap(18, 18, 18)
-                        .addComponent(save)
-                        .addGap(18, 18, 18)
-                        .addComponent(delete)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(376, 376, 376))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rSMaterialButtonRectangle4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_pint, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rSMaterialButtonRectangle5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(503, 503, 503)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel22)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_totalHarga_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(rSMaterialButtonRectangle4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_jumlah_kembalian_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_jumlah_bayar_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel22)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_jumlah_kembalian_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                .addComponent(txt_jumlah_bayar_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_totalHarga_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 399, Short.MAX_VALUE)
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane2))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(16, 16, 16))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_cari)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_totalHarga_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21)
-                            .addComponent(btn_print)
-                            .addComponent(save)
-                            .addComponent(delete))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_jumlah_bayar_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rSMaterialButtonRectangle4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_jumlah_kembalian_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_jumlah_bayar_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10)
+                                .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_jumlah_kembalian_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel22)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txt_totalHarga_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel21))
+                                    .addComponent(rSMaterialButtonRectangle4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rSMaterialButtonRectangle5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(btn_pint, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(292, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void rSMaterialButtonRectangle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle3ActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        
         String id_tran = txt_idTran.getText();
         String tanggal = txt_tanggalTran.getText();
         String id_cus = txt_idCUS.getText();
@@ -748,79 +891,17 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
     private void rSMaterialButtonRectangle4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle4ActionPerformed
         // TODO add your handling code here:
-        int totalharga = Integer.parseInt(txt_totalHarga_transaksi.getText());
-        int JumlahBayar = Integer.parseInt(txt_jumlah_bayar_transaksi.getText());
-        int kembalian = JumlahBayar - totalharga;
-        txt_jumlah_kembalian_transaksi.setText(""+kembalian);
-        lb_total1.setText(""+kembalian);
-    }//GEN-LAST:event_rSMaterialButtonRectangle4ActionPerformed
-
-    private void txt_jumlah_bayar_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jumlah_bayar_transaksiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_jumlah_bayar_transaksiActionPerformed
-
-    private void txt_jumlah_kembalian_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jumlah_kembalian_transaksiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_jumlah_kembalian_transaksiActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        select_data_customer data = new select_data_customer();
-        data.setVisible(true);
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void txt_idTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idTranActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_idTranActionPerformed
-
-    private void btn_printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_printActionPerformed
-        // TODO add your handling code here:
-        try {
-        File namafile = new File("src/laporan/struk_penjualan.jasper");
-            JasperPrint jp = JasperFillManager.fillReport(namafile.getPath(), null, k.getCon());
-            JasperViewer.viewReport(jp,true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-
-    }//GEN-LAST:event_btn_printActionPerformed
-
-    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        // TODO add your handling code here:
-        /*String id_tran = txt_transaksi.getText();
-        String nama_cus = txt_nama_customer_transaksi.getText();
-        String jenis = (String)combo_jenispaket.getSelectedItem();
-        String sepatu = txt_sepatu_transaksi.getText();
-        int harga = Integer.parseInt(txt_harga.getText());
-        int jumlah_bayar = Integer.parseInt(txt_jumlah_bayar_transaksi.getText());
-        int jumlah_kembalian = Integer.parseInt(txt_jumlah_kembalian_transaksi.getText());
-
-        try {
-            Statement statement = (Statement) k.getCon().createStatement();
-            statement.executeUpdate("insert into detail_transaksi (id_transaksi, nama_customer, jenis_paket, sepatu, harga, jumlah_bayar, jumlah_kembalian) VALUES ('"+id_tran+"','"+nama_cus+"','"+jenis+"','"+sepatu+"','"+harga+"','"+jumlah_bayar+"','"+jumlah_kembalian+"');");
-            txt_transaksi.setText("");
-            txt_nama_customer_transaksi.setText("");
-            combo_jenispaket.setSelectedItem("");
-            txt_sepatu_transaksi.setText("");
-            txt_harga.setText("");
-            txt_jumlah_bayar_transaksi.setText("");
-            txt_jumlah_kembalian_transaksi.setText("");
-            statement.close();
-            JOptionPane.showMessageDialog(null, "data berhasil dimpan");
-        } catch (SQLException t) {
-            JOptionPane.showMessageDialog(null, "data gagal disimpan");
-        }
-        datatable_transaksi();*/
-
         Connection con = (Connection) k.getCon();
         Statement stat;
 
         DefaultTableModel model = (DefaultTableModel) tabel1.getModel();
+        
 
         int total_harga = Integer.parseInt(txt_totalHarga_transaksi.getText());
         int jumlah_bayar = Integer.parseInt(txt_jumlah_bayar_transaksi.getText());
         int jumlah_kembalian = Integer.parseInt(txt_jumlah_kembalian_transaksi.getText());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        String tanggal_ambil = sdf.format(jDateChooser.getDate());
 
         try {
             stat = con.createStatement();
@@ -838,7 +919,7 @@ public class Form_Transaksi extends javax.swing.JPanel {
                 int harga = Integer.valueOf(model.getValueAt(i, 7).toString());
 
 
-                String sqlQuery = "INSERT INTO detail_transaksi (id_transaksi, tanggal, id_customer, nama_customer, notelp, sepatu, jenis_paket, harga, total_harga, jumlah_bayar, jumlah_kembalian) VALUES ('"+id_transaksi+"','"+tanggal+"','"+id_customer+"','"+nama_customer+"','"+notelp+"','"+sepatu+"','"+jenis_paket+"','"+harga+"', '"+total_harga+"','"+jumlah_bayar+"','"+jumlah_kembalian+"')";
+                String sqlQuery = "INSERT INTO detail_transaksi (id_transaksi, tanggal, id_customer, nama_customer, notelp, sepatu, jenis_paket, tanggal_ambil, harga, total_harga, jumlah_bayar, jumlah_kembalian) VALUES ('"+id_transaksi+"','"+tanggal+"','"+id_customer+"','"+nama_customer+"','"+notelp+"','"+sepatu+"','"+jenis_paket+"', '"+tanggal_ambil+"','"+harga+"', '"+total_harga+"','"+jumlah_bayar+"','"+jumlah_kembalian+"')";
 
                 stat.addBatch(sqlQuery);
                 
@@ -863,34 +944,19 @@ public class Form_Transaksi extends javax.swing.JPanel {
 
         DefaultTableModel tableModel = (DefaultTableModel) tabel1.getModel();
         tableModel.setRowCount(0);
-    }//GEN-LAST:event_saveActionPerformed
+    }//GEN-LAST:event_rSMaterialButtonRectangle4ActionPerformed
 
-    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+    private void txt_jumlah_bayar_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jumlah_bayar_transaksiActionPerformed
         // TODO add your handling code here:
-        String id_transaksi = txt_idTran.getText();
+    }//GEN-LAST:event_txt_jumlah_bayar_transaksiActionPerformed
 
-        try {
-            Statement statement = (Statement) k.getCon().createStatement();
-            statement.executeUpdate(" DELETE from detail_transaksi where id_transaksi = ('"+id_transaksi+"');");
-            JOptionPane.showMessageDialog(null, "data berhasil dihapus");
-            txt_idCUS.setText("");
-            txt_namaCUS.setText("");
-            txt_notelpCUS.setText("");
-            txt_sepatu.setText("");
-            combo_jenispaket.setSelectedItem("");
-            txt_harga.setText("");
-            txt_totalHarga_transaksi.setText("");
-            txt_jumlah_bayar_transaksi.setText("");
-            txt_jumlah_kembalian_transaksi.setText("");
-            lb_total.setText("");
-            lb_total1.setText("");
-            txt_idTran.requestFocus();
-        } catch (HeadlessException | SQLException t) {
-            JOptionPane.showMessageDialog(null, "data gagal dihapus");
-        }
-        datatable_transaksi();
-        auto_id();
-    }//GEN-LAST:event_deleteActionPerformed
+    private void txt_jumlah_kembalian_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jumlah_kembalian_transaksiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_jumlah_kembalian_transaksiActionPerformed
+
+    private void txt_idTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idTranActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_idTranActionPerformed
 
     private void table_strukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_strukMouseClicked
         // TODO add your handling code here:
@@ -917,27 +983,111 @@ public class Form_Transaksi extends javax.swing.JPanel {
         String jenis = table_struk.getValueAt(baris, 6).toString();
         combo_jenispaket.setSelectedItem(jenis);
         
-        String harga = table_struk.getValueAt(baris, 7).toString();
+        String tanggal_ambil = table_struk.getValueAt(baris, 7).toString();
+        jDateChooser.setDateFormatString(tanggal_ambil);
+        
+        String harga = table_struk.getValueAt(baris, 8).toString();
         txt_harga.setText(harga);
-        
-        String jumlah_bayar = table_struk.getValueAt(baris, 8).toString();
-        txt_jumlah_bayar_transaksi.setText(jumlah_bayar);
-        
-        String kembalian = table_struk.getValueAt(baris, 9).toString();
-        txt_jumlah_kembalian_transaksi.setText(kembalian);
     }//GEN-LAST:event_table_strukMouseClicked
+
+    private void tabel_dataCusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_dataCusMouseClicked
+        // TODO add your handling code here:
+        int baris = tabel_dataCus.rowAtPoint(evt.getPoint());
+        
+        String id = tabel_dataCus.getValueAt(baris, 0).toString();
+        txt_idCUS.setText(id);
+        
+        String nama = tabel_dataCus.getValueAt(baris, 1).toString();
+        txt_namaCUS.setText(nama);
+        
+        String notelp = tabel_dataCus.getValueAt(baris, 2).toString();
+        txt_notelpCUS.setText(notelp);
+    }//GEN-LAST:event_tabel_dataCusMouseClicked
+
+    private void rSMaterialButtonRectangle5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle5ActionPerformed
+        // TODO add your handling code here:
+        String id_transaksi = txt_idTran.getText();
+
+        try {
+            Statement statement = (Statement) k.getCon().createStatement();
+            statement.executeUpdate(" DELETE from detail_transaksi where id_transaksi = ('"+id_transaksi+"');");
+            JOptionPane.showMessageDialog(null, "data berhasil dihapus");
+            txt_idCUS.setText("");
+            txt_namaCUS.setText("");
+            txt_notelpCUS.setText("");
+            txt_sepatu.setText("");
+            combo_jenispaket.setSelectedItem("");
+            txt_harga.setText("");
+            txt_totalHarga_transaksi.setText("");
+            txt_jumlah_bayar_transaksi.setText("");
+            txt_jumlah_kembalian_transaksi.setText("");
+            lb_total.setText("");
+            lb_total1.setText("");
+            txt_idTran.requestFocus();
+        } catch (HeadlessException | SQLException t) {
+            JOptionPane.showMessageDialog(null, "data gagal dihapus");
+        }
+        datatable_transaksi();
+        auto_id();
+    }//GEN-LAST:event_rSMaterialButtonRectangle5ActionPerformed
+
+    private void btn_pintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pintActionPerformed
+        // TODO add your handling code here:
+        try {
+        File namafile = new File("src/laporan/struk_penjualan_1.jasper");
+            JasperPrint jp = JasperFillManager.fillReport(namafile.getPath(), null, k.getCon());
+            JasperViewer.viewReport(jp,false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        try {
+            Linear barcode = new Linear();
+            barcode.setType(Linear.CODE128);
+            barcode.setData(txt_idTran.getText());
+            barcode.setI(11.0f);
+            
+            String Filename = txt_idTran.getText();
+            
+            barcode.renderBarcode(("C:\\Users\\ferdi\\OneDrive\\Documents\\NetBeansProjects\\renz_billiard\\src\\laporan\\" + Filename + ".png"));
+            ImageIcon imgThisImg = new ImageIcon("src"+"/"+"image"+txt_idTran.getText()+".jpg");
+            jLabel2.setIcon(imgThisImg);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_btn_pintActionPerformed
+
+    private void rSMaterialButtonRectangle7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle7ActionPerformed
+        // TODO add your handling code here:
+        int totalharga = Integer.parseInt(txt_totalHarga_transaksi.getText());
+        int JumlahBayar = Integer.parseInt(txt_jumlah_bayar_transaksi.getText());
+        int kembalian = JumlahBayar - totalharga;
+        txt_jumlah_kembalian_transaksi.setText(""+kembalian);     
+        lb_total1.setText(""+kembalian);
+    }//GEN-LAST:event_rSMaterialButtonRectangle7ActionPerformed
+
+    private void txt_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cariActionPerformed
+        // TODO add your handling code here:
+        cari_customer();
+    }//GEN-LAST:event_txt_cariActionPerformed
+
+    private void txt_cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cariKeyTyped
+        // TODO add your handling code here:
+        cari_customer();
+    }//GEN-LAST:event_txt_cariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_print;
+    private rojerusan.RSMaterialButtonRectangle btn_pint;
     private javax.swing.JComboBox<String> combo_jenispaket;
-    private javax.swing.JButton delete;
-    private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
@@ -958,13 +1108,17 @@ public class Form_Transaksi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lb_total;
     private javax.swing.JLabel lb_total1;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle3;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle4;
-    private javax.swing.JButton save;
+    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle5;
+    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle7;
     private javax.swing.JTable tabel1;
+    private javax.swing.JTable tabel_dataCus;
     private javax.swing.JTable table_struk;
+    private javax.swing.JTextField txt_cari;
     private javax.swing.JTextField txt_harga;
     public javax.swing.JTextField txt_idCUS;
     private javax.swing.JTextField txt_idTran;

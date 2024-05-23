@@ -66,6 +66,9 @@ public class menu_utama1 extends javax.swing.JFrame {
         pnl_navbar = new javax.swing.JPanel();
         lb_tanggal = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btn_minimize = new javax.swing.JLabel();
+        btn_restoreDown = new javax.swing.JLabel();
+        btn_Close = new javax.swing.JLabel();
         pnl_sidebar = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         pnl_menu = new javax.swing.JPanel();
@@ -96,6 +99,30 @@ public class menu_utama1 extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_male_user_50px.png"))); // NOI18N
         jLabel1.setText("Staff");
 
+        btn_minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_minimize_window_30px.png"))); // NOI18N
+        btn_minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_minimizeMouseClicked(evt);
+            }
+        });
+
+        btn_restoreDown.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_restoreDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_restore_down_30px.png"))); // NOI18N
+        btn_restoreDown.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_restoreDownMouseClicked(evt);
+            }
+        });
+
+        btn_Close.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_close_window_30px_1.png"))); // NOI18N
+        btn_Close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_CloseMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl_navbarLayout = new javax.swing.GroupLayout(pnl_navbar);
         pnl_navbar.setLayout(pnl_navbarLayout);
         pnl_navbarLayout.setHorizontalGroup(
@@ -104,13 +131,25 @@ public class menu_utama1 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 567, Short.MAX_VALUE)
-                .addComponent(lb_tanggal)
-                .addContainerGap())
+                .addGroup(pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_navbarLayout.createSequentialGroup()
+                        .addComponent(lb_tanggal)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_navbarLayout.createSequentialGroup()
+                        .addComponent(btn_minimize, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_restoreDown, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_Close, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         pnl_navbarLayout.setVerticalGroup(
             pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_navbarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_minimize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_restoreDown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_Close, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
                 .addComponent(lb_tanggal)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_navbarLayout.createSequentialGroup()
@@ -213,6 +252,22 @@ public class menu_utama1 extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btn_minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_minimizeMouseClicked
+        this.setState(menu_utama1.ICONIFIED);
+    }//GEN-LAST:event_btn_minimizeMouseClicked
+
+    private void btn_restoreDownMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_restoreDownMouseClicked
+        if(this.getExtendedState()!=menu_utama1.MAXIMIZED_BOTH){
+            this.setExtendedState(menu_utama1.MAXIMIZED_BOTH);
+        }else{
+            this.setExtendedState(menu_utama1.NORMAL);
+        }
+    }//GEN-LAST:event_btn_restoreDownMouseClicked
+
+    private void btn_CloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_CloseMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_btn_CloseMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -250,6 +305,9 @@ public class menu_utama1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btn_Close;
+    private javax.swing.JLabel btn_minimize;
+    private javax.swing.JLabel btn_restoreDown;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;

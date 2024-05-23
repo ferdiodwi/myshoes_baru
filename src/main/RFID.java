@@ -14,7 +14,7 @@ import main.menu_utama;
  *
  * @author Lenovo
  */
-public class Login1 extends javax.swing.JFrame {
+public class RFID extends javax.swing.JFrame {
 
     int xx, xy;
     private PreparedStatement stat;
@@ -24,11 +24,9 @@ public class Login1 extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    public Login1() {
+    public RFID() {
         initComponents();
         k.connect();
-        
-        lb_hidePassword.setVisible(false);
     }
 
 
@@ -41,7 +39,6 @@ public class Login1 extends javax.swing.JFrame {
         public user() {
             this.id_user = 0;
             this.username = jTextField2.getText();
-            this.password = txt_password.getText();
             this.nama_user = "";
         }
     }
@@ -59,21 +56,14 @@ public class Login1 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        lb_showPassword = new javax.swing.JLabel();
-        lb_hidePassword = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        txt_password = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -126,63 +116,11 @@ public class Login1 extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(25, 118, 211));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lb_showPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_showPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_eye_20px_3.png"))); // NOI18N
-        lb_showPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lb_showPassword.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lb_showPasswordMouseClicked(evt);
-            }
-        });
-        jPanel2.add(lb_showPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 253, 43, 39));
-
-        lb_hidePassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_hidePassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_invisible_20px_1.png"))); // NOI18N
-        lb_hidePassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lb_hidePassword.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lb_hidePasswordMouseClicked(evt);
-            }
-        });
-        jPanel2.add(lb_hidePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 253, 43, 39));
-
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Hello! Let's get started");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 79, 362, -1));
-
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Username");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 121, 300, 26));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Password");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 220, 314, 26));
-
-        jLabel10.setForeground(new java.awt.Color(199, 226, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Forget Password?");
-        jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 332, -1, -1));
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(25, 118, 211));
-        jButton1.setText("LOGIN");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 381, 300, 40));
-
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_user_20px_1.png"))); // NOI18N
-        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 154, 43, 39));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 79, 366, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -193,27 +131,7 @@ public class Login1 extends javax.swing.JFrame {
                 jLabel5MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(123, 17, 132, -1));
-
-        jTextField2.setBackground(new java.awt.Color(25, 118, 211));
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 154, 252, 39));
-
-        txt_password.setBackground(new java.awt.Color(25, 118, 211));
-        txt_password.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txt_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        txt_password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_passwordActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 253, 252, 39));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 17, 132, -1));
 
         jLabel2.setForeground(new java.awt.Color(199, 226, 255));
         jLabel2.setText("Don't have an account?");
@@ -229,11 +147,6 @@ public class Login1 extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(244, 439, -1, -1));
 
-        jCheckBox2.setBackground(new java.awt.Color(25, 118, 211));
-        jCheckBox2.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setText("Remember Password");
-        jPanel2.add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 328, 189, -1));
-
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_close_window_30px_1.png"))); // NOI18N
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -241,48 +154,35 @@ public class Login1 extends javax.swing.JFrame {
                 jLabel8MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 0, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(459, 0, -1, 520));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("KARTU ANDA");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 366, 50));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("TEMPELKAN");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 366, 50));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(459, 0, 390, 520));
+
+        jTextField2.setBackground(new java.awt.Color(25, 118, 211));
+        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        user u = new user();
-        try {
-            this.stat = k.getCon().prepareStatement("select * from user where "
-                    + " username='"+u.username+"' and password='"+u.password+"';");
-            this.rs = this.stat.executeQuery();
-            while (rs.next()){
-                u.id_level = rs.getInt("id_level");
-            }
-            if (u.id_level==0){
-                JOptionPane.showMessageDialog(null, "AKUN TIDAK DITEMUKAN");
-            }
-            else {
-                switch (u.id_level){
-                    case 1:
-                        menu_utama hom = new menu_utama();
-                        hom.setVisible(true);
-                        this.setVisible(false);
-                        break;
-                        
-                    case 2:
-                        menu_utama1 tran = new menu_utama1();
-                        tran.setVisible(true);
-                        this.setVisible(false);
-                        break;
-
-                }
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         // TODO add your handling code here:
@@ -314,63 +214,7 @@ public class Login1 extends javax.swing.JFrame {
         user u = new user();
         try {
             this.stat = k.getCon().prepareStatement("select * from user where "
-                    + " username='"+u.username+"' and password='"+u.password+"';");
-            this.rs = this.stat.executeQuery();
-            while (rs.next()){
-                u.id_level = rs.getInt("id_level");
-            }
-            if (u.id_level==0){
-                JOptionPane.showMessageDialog(null, "AKUN TIDAK DITEMUKAN");
-            }
-            else {
-                switch (u.id_level){
-                    case 1:
-                        menu_utama hom = new menu_utama();
-                        hom.setVisible(true);
-                        this.setVisible(false);
-                        break;
-                        
-                    case 2:
-                        menu_utama1 tran = new menu_utama1();
-                        tran.setVisible(true);
-                        this.setVisible(false);
-                        break;
-
-                }
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        } 
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // TODO add your handling code here:
-        RFID rf = new RFID();
-        rf.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void lb_showPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_showPasswordMouseClicked
-        // TODO add your handling code here:
-        lb_showPassword.setVisible(false);
-        lb_hidePassword.setVisible(true);
-        txt_password.setEchoChar((char)0);
-    }//GEN-LAST:event_lb_showPasswordMouseClicked
-
-    private void lb_hidePasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_hidePasswordMouseClicked
-        // TODO add your handling code here:
-        lb_showPassword.setVisible(true);
-        lb_hidePassword.setVisible(false);
-        txt_password.setEchoChar('*');
-    }//GEN-LAST:event_lb_hidePasswordMouseClicked
-
-    private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
-        // TODO add your handling code here:
-        user u = new user();
-        try {
-            this.stat = k.getCon().prepareStatement("select * from user where "
-                    + " username='"+u.username+"' and password='"+u.password+"';");
+                    + " username='"+u.username+"'");
             this.rs = this.stat.executeQuery();
             while (rs.next()){
                 u.id_level = rs.getInt("id_level");
@@ -398,7 +242,14 @@ public class Login1 extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_txt_passwordActionPerformed
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        Login1 log = new Login1();
+        log.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
@@ -417,14 +268,18 @@ public class Login1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RFID.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RFID.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RFID.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RFID.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -433,17 +288,13 @@ public class Login1 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login1().setVisible(true);
+                new RFID().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -458,8 +309,5 @@ public class Login1 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JLabel lb_hidePassword;
-    private javax.swing.JLabel lb_showPassword;
-    private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
 }

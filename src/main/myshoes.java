@@ -16,7 +16,7 @@ public class myshoes {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        menu_utama utam = new menu_utama();
+        RFID utam = new RFID();
         utam.setVisible(true);
     }
     

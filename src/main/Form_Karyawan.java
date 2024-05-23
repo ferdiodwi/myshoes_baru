@@ -150,7 +150,7 @@ public class Form_Karyawan extends javax.swing.JPanel {
         rSMaterialButtonRectangle2 = new rojerusan.RSMaterialButtonRectangle();
         rSMaterialButtonRectangle7 = new rojerusan.RSMaterialButtonRectangle();
         txt_cari = new javax.swing.JTextField();
-        rSMaterialButtonRectangle3 = new rojerusan.RSMaterialButtonRectangle();
+        jLabel10 = new javax.swing.JLabel();
         tambahKaryawan = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         rSMaterialButtonRectangle4 = new rojerusan.RSMaterialButtonRectangle();
@@ -232,13 +232,7 @@ public class Form_Karyawan extends javax.swing.JPanel {
             }
         });
 
-        rSMaterialButtonRectangle3.setBackground(new java.awt.Color(102, 102, 102));
-        rSMaterialButtonRectangle3.setText("cari");
-        rSMaterialButtonRectangle3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonRectangle3ActionPerformed(evt);
-            }
-        });
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_search_30px.png"))); // NOI18N
 
         javax.swing.GroupLayout dataKaryawanLayout = new javax.swing.GroupLayout(dataKaryawan);
         dataKaryawan.setLayout(dataKaryawanLayout);
@@ -257,10 +251,10 @@ public class Form_Karyawan extends javax.swing.JPanel {
                         .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
                         .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)))
                 .addContainerGap())
         );
         dataKaryawanLayout.setVerticalGroup(
@@ -269,16 +263,15 @@ public class Form_Karyawan extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(38, 38, 38)
-                .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txt_cari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(dataKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10)
+                    .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
         );
 
         mainPanel.add(dataKaryawan, "card2");
@@ -546,11 +539,6 @@ public class Form_Karyawan extends javax.swing.JPanel {
         txt_notelp.setText(notelp);
     }//GEN-LAST:event_table_karyawanMouseClicked
 
-    private void rSMaterialButtonRectangle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle3ActionPerformed
-        // TODO add your handling code here:
-        cari_karyawan();
-    }//GEN-LAST:event_rSMaterialButtonRectangle3ActionPerformed
-
     private void txt_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cariActionPerformed
         // TODO add your handling code here:
         cari_karyawan();
@@ -565,6 +553,7 @@ public class Form_Karyawan extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel dataKaryawan;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -575,7 +564,6 @@ public class Form_Karyawan extends javax.swing.JPanel {
     private javax.swing.JPanel mainPanel;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle1;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle2;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle3;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle4;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle5;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle7;

@@ -226,7 +226,7 @@ public class Form_Data_Customer extends javax.swing.JPanel {
         rSMaterialButtonRectangle2 = new rojerusan.RSMaterialButtonRectangle();
         rSMaterialButtonRectangle6 = new rojerusan.RSMaterialButtonRectangle();
         txt_cari = new javax.swing.JTextField();
-        rSMaterialButtonRectangle3 = new rojerusan.RSMaterialButtonRectangle();
+        jLabel5 = new javax.swing.JLabel();
         tambahBarang = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         rSMaterialButtonRectangle4 = new rojerusan.RSMaterialButtonRectangle();
@@ -304,13 +304,7 @@ public class Form_Data_Customer extends javax.swing.JPanel {
             }
         });
 
-        rSMaterialButtonRectangle3.setBackground(new java.awt.Color(102, 102, 102));
-        rSMaterialButtonRectangle3.setText("cari");
-        rSMaterialButtonRectangle3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonRectangle3ActionPerformed(evt);
-            }
-        });
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_search_30px.png"))); // NOI18N
 
         javax.swing.GroupLayout dataBarangLayout = new javax.swing.GroupLayout(dataBarang);
         dataBarang.setLayout(dataBarangLayout);
@@ -319,23 +313,21 @@ public class Form_Data_Customer extends javax.swing.JPanel {
             .addGroup(dataBarangLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(dataBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dataBarangLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
                     .addGroup(dataBarangLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(dataBarangLayout.createSequentialGroup()
                         .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                         .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)))
+                .addContainerGap())
         );
         dataBarangLayout.setVerticalGroup(
             dataBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,14 +336,15 @@ public class Form_Data_Customer extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(38, 38, 38)
                 .addGroup(dataBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_cari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(dataBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(rSMaterialButtonRectangle3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
         );
 
         mainPanel.add(dataBarang, "card2");
@@ -586,11 +579,6 @@ public class Form_Data_Customer extends javax.swing.JPanel {
         mainPanel.revalidate();
     }//GEN-LAST:event_rSMaterialButtonRectangle4ActionPerformed
 
-    private void rSMaterialButtonRectangle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle3ActionPerformed
-        // TODO add your handling code here:
-        cari_customer();
-    }//GEN-LAST:event_rSMaterialButtonRectangle3ActionPerformed
-
     private void txt_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cariActionPerformed
         // TODO add your handling code here:
         cari_customer();
@@ -608,12 +596,12 @@ public class Form_Data_Customer extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle1;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle2;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle3;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle4;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle5;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle6;

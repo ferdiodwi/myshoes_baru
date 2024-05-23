@@ -119,6 +119,38 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
     }
     
     
+    void cari_pengeluaran(){
+    DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("ID Pengeluaran");
+        tbl.addColumn("Nama Barang");
+        tbl.addColumn("Harga");
+        tbl.addColumn("Jumlah");
+        tbl.addColumn("Tanggal");
+        table_pengeluaran.setModel(tbl);
+        
+        try {
+            String sql = "SELECT * FROM pengeluaran WHERE id_pengeluaran like '%" + txt_cari.getText() + "%'" +
+                    "or nama_brng like '%" + txt_cari.getText() + "%'";
+             Connection con = (Connection) k.getCon();
+             Statement stat = con.createStatement();
+             ResultSet res = stat.executeQuery(sql);
+             
+             while(res.next())
+            {
+                tbl.addRow(new Object[]{
+                res.getString("id_pengeluaran"),
+                res.getString("nama_brng"),
+                res.getString("harga_brng"),
+                res.getString("jumlah_brng"),
+                res.getString("tanggal")
+            });
+            table_pengeluaran.setModel(tbl);
+                
+            }
+        } catch (Exception e) {
+        }
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,6 +169,8 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
         rSMaterialButtonRectangle1 = new rojerusan.RSMaterialButtonRectangle();
         rSMaterialButtonRectangle2 = new rojerusan.RSMaterialButtonRectangle();
         rSMaterialButtonRectangle6 = new rojerusan.RSMaterialButtonRectangle();
+        txt_cari = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         tambahPengeluaran = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         rSMaterialButtonRectangle4 = new rojerusan.RSMaterialButtonRectangle();
@@ -204,6 +238,21 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
             }
         });
 
+        txt_cari.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_cari.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txt_cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_cariActionPerformed(evt);
+            }
+        });
+        txt_cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_cariKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_search_30px.png"))); // NOI18N
+
         javax.swing.GroupLayout dataPengeluaranLayout = new javax.swing.GroupLayout(dataPengeluaran);
         dataPengeluaran.setLayout(dataPengeluaranLayout);
         dataPengeluaranLayout.setHorizontalGroup(
@@ -211,17 +260,20 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
             .addGroup(dataPengeluaranLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(dataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
                     .addGroup(dataPengeluaranLayout.createSequentialGroup()
-                        .addGroup(dataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(dataPengeluaranLayout.createSequentialGroup()
-                                .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(dataPengeluaranLayout.createSequentialGroup()
+                        .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)))
                 .addContainerGap())
         );
         dataPengeluaranLayout.setVerticalGroup(
@@ -230,12 +282,15 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(38, 38, 38)
-                .addGroup(dataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(dataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(dataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rSMaterialButtonRectangle1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rSMaterialButtonRectangle2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rSMaterialButtonRectangle6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10)
+                    .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
         );
 
         mainPanel.add(dataPengeluaran, "card2");
@@ -330,7 +385,7 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
                                 .addComponent(rSMaterialButtonRectangle7, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rSMaterialButtonRectangle5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 115, Short.MAX_VALUE)))
+                        .addGap(0, 314, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         tambahPengeluaranLayout.setVerticalGroup(
@@ -514,10 +569,21 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
         auto_id();
     }//GEN-LAST:event_rSMaterialButtonRectangle2ActionPerformed
 
+    private void txt_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cariActionPerformed
+        // TODO add your handling code here:
+        cari_pengeluaran();
+    }//GEN-LAST:event_txt_cariActionPerformed
+
+    private void txt_cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cariKeyTyped
+        // TODO add your handling code here:
+        cari_pengeluaran();
+    }//GEN-LAST:event_txt_cariKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel dataPengeluaran;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -534,6 +600,7 @@ public class Form_Pengeluaran extends javax.swing.JPanel {
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle7;
     private javax.swing.JTable table_pengeluaran;
     private javax.swing.JPanel tambahPengeluaran;
+    private javax.swing.JTextField txt_cari;
     private javax.swing.JTextField txt_harga;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_jumlah;
